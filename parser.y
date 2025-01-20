@@ -18,7 +18,7 @@ int yylex();
 %token PLUS MINUS MULT DIV MOD
 %token EQ STRICT_EQ NEQ STRICT_NEQ GT LT GTE LTE ASSIGN
 %token AND OR NOT
-%token SEMICOLON COMMA DOT LBRACE RBRACE LPAREN RPAREN LBRACKET RBRACKET
+%token EOL SEMICOLON COMMA DOT LBRACE RBRACE LPAREN RPAREN LBRACKET RBRACKET
 
 %left OR
 %left AND
@@ -28,6 +28,7 @@ int yylex();
 %left MULT DIV MOD
 %right NOT
 %nonassoc ELSE
+
 
 %%
 program:
@@ -51,15 +52,17 @@ statement:
     ;
 
 variable_declaration:
-    modifier IDENTIFIER SEMICOLON
-    | modifier IDENTIFIER ASSIGN expression SEMICOLON
-    | CONST IDENTIFIER ASSIGN expression SEMICOLON
+    modifier IDENTIFIER terminator
+    | modifier IDENTIFIER ASSIGN expression terminator
+    | CONST IDENTIFIER ASSIGN expression terminator
     ;
+
+terminator:  EOL | SEMICOLON ;
 
 modifier: VAR | LET ;
 
 assignment_statement:
-    IDENTIFIER ASSIGN expression SEMICOLON
+    IDENTIFIER ASSIGN expression terminator
     ;
 
 function_declaration:
@@ -74,7 +77,7 @@ parameter_list:
 
 
 function_call_statement:
-    function_call SEMICOLON
+    function_call terminator
     ;
 
 function_call:
@@ -124,20 +127,20 @@ for_update:
     ;
 
 return_statement:
-    RETURN expression SEMICOLON
-    | RETURN SEMICOLON
+    RETURN expression terminator
+    | RETURN terminator
     ;
 
 break_statement:
-    BREAK SEMICOLON
+    BREAK terminator
     ;
 
 continue_statement:
-    CONTINUE SEMICOLON
+    CONTINUE terminator
     ;
 
 expression_statement:
-    expression SEMICOLON
+    expression terminator
     ;
 
 expression:
