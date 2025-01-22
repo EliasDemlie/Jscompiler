@@ -42,6 +42,7 @@ statement:
     | function_declaration
     | if_statement
     | while_statement
+    | do_while_statement
     | for_statement
     | return_statement
     | break_statement
@@ -116,6 +117,12 @@ if_statement:
 while_statement:
     WHILE LPAREN expression RPAREN statement
     ;
+
+do_while_statement:
+    DO statement WHILE LPAREN expression RPAREN SEMICOLON
+    ;
+
+
 for_statement:
     FOR LPAREN for_initializer SEMICOLON expression SEMICOLON for_update RPAREN statement
     | FOR LPAREN SEMICOLON expression SEMICOLON for_update RPAREN statement
