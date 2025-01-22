@@ -18,7 +18,7 @@ int yylex();
 %token PLUS MINUS MULT DIV MOD
 %token EQ STRICT_EQ NEQ STRICT_NEQ GT LT GTE LTE ASSIGN INCREMENT DECREMENT
 %token AND OR NOT
-%token EOL SEMICOLON COMMA DOT LBRACE RBRACE LPAREN RPAREN LBRACKET RBRACKET
+%token EOL SEMICOLON COMMA DOT  ARROW LBRACE RBRACE LPAREN RPAREN LBRACKET RBRACKET
 
 %left OR
 %left AND
@@ -67,6 +67,10 @@ assignment_statement:
 
 function_declaration:
     FUNCTION IDENTIFIER LPAREN parameter_list RPAREN block
+    | CONST IDENTIFIER ASSIGN FUNCTION LPAREN parameter_list RPAREN block
+    | modifier IDENTIFIER ASSIGN FUNCTION LPAREN parameter_list RPAREN block
+    | modifier IDENTIFIER ASSIGN LPAREN parameter_list RPAREN ARROW block
+    | CONST IDENTIFIER ASSIGN LPAREN parameter_list RPAREN ARROW block
     ;
 
 parameter_list:
@@ -143,40 +147,39 @@ continue_statement:
 expression_statement:
     expression terminator
     ;
-
 expression:
-    expression PLUS expression                          { /* addition operation */ }
-    | expression MINUS expression                         { /* subtraction operation */ }
-    | expression MULT expression                          { /* multiplication operation */ }
-    | expression DIV expression                           { /* division operation */ }
-    | expression MOD expression                           { /* modulo operation */ }
-    | expression GT expression                           { /* greater than comparison */ }
-    | expression LT expression                           { /* less than comparison */ }
-    | expression GTE expression                          { /* greater than or equal */ }
-    | expression LTE expression                          { /* less than or equal */ }
-    | expression EQ expression                           { /* equality comparison */ }
-    | expression STRICT_EQ expression                     { /* strict equality comparison */ }
-    | expression NEQ expression                          { /* not equal comparison */ }
-    | expression STRICT_NEQ expression                    { /* strict not equal comparison */ }
-    | expression AND expression                          { /* logical AND */ }
-    | expression OR expression                           { /* logical OR */ }
-    | NOT expression                                     { /* logical NOT */ }
-    | IDENTIFIER INCREMENT                               { /* postfix increment */ }
-    | IDENTIFIER DECREMENT                               { /* postfix decrement */ }
-    | INCREMENT IDENTIFIER                               { /* prefix increment */ }
-    | DECREMENT IDENTIFIER                               { /* prefix decrement */ }
-    | IDENTIFIER ASSIGN expression                       { /* assignment operation */ }
-    | expression PLUS ASSIGN expression                   { /* addition assignment */ }
-    | expression MINUS ASSIGN expression                  { /* subtraction assignment */ }
-    | expression MULT ASSIGN expression                   { /* multiplication assignment */ }
-    | expression DIV ASSIGN expression                    { /* division assignment */ }
-    | expression MOD ASSIGN expression                    { /* modulo assignment */ }
-    | LPAREN expression RPAREN                           { /* parentheses to group expressions */ }
-    | IDENTIFIER                                          { /* simple identifier */ }
-    | NUMBER                                              { /* number literal */ }
-    | FLOAT_LITERAL                                       { /* float literal */ }
-    | STRING_LITERAL                                      { /* string literal */ }
-    | CHAR_LITERAL                                        { /* char literal */ }
+    expression PLUS expression                          
+    | expression MINUS expression                         
+    | expression MULT expression                          
+    | expression DIV expression                           
+    | expression MOD expression                           
+    | expression GT expression                           
+    | expression LT expression                           
+    | expression GTE expression                          
+    | expression LTE expression                          
+    | expression EQ expression                           
+    | expression STRICT_EQ expression                     
+    | expression NEQ expression                          
+    | expression STRICT_NEQ expression                    
+    | expression AND expression                          
+    | expression OR expression                           
+    | NOT expression                                     
+    | IDENTIFIER INCREMENT                               
+    | IDENTIFIER DECREMENT                               
+    | INCREMENT IDENTIFIER                               
+    | DECREMENT IDENTIFIER                               
+    | IDENTIFIER ASSIGN expression                       
+    | expression PLUS ASSIGN expression                   
+    | expression MINUS ASSIGN expression                  
+    | expression MULT ASSIGN expression                   
+    | expression DIV ASSIGN expression                    
+    | expression MOD ASSIGN expression                    
+    | LPAREN expression RPAREN                           
+    | IDENTIFIER                                          
+    | NUMBER                                              
+    | FLOAT_LITERAL                                       
+    | STRING_LITERAL                                      
+    | CHAR_LITERAL                                        
     ;
 
 %%

@@ -1,5 +1,5 @@
 // Variable declarations
-let a=5;
+let a = 5;
 const b = 10;
 var c = 15;
 
@@ -21,16 +21,18 @@ while (c > 0) {
 if (a > 10) {
     if (b < 20) {
         a = b * 2;
+       i +=1;
     } else {
         a = b / 2;
     }
 }
 
-// Function declaration (if supported in the grammar)
-function add(x, y) {
-    return x + y;
+i += 1;
+i++;
+
+const greet = () => {
+
 }
-
-// Call the function
-let x = add(a, b, c);
-
+function add(){
+    
+}

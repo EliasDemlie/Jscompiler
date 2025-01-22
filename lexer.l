@@ -4,7 +4,6 @@
 %}
 
 %%
-\n                 { printf("EOL\n");} // Recognize end of line
 "var"                { printf("Token: VAR\n"); return VAR; }
 "let"                { printf("Token: LET\n"); return LET; }
 "const"              { printf("Token: CONST\n"); return CONST; }
@@ -67,7 +66,9 @@
 "("                 { return LPAREN; }
 ")"                 { return RPAREN; }
 "."                 { return DOT; }
+"=>"                {printf("Token: ARROW\n"); return ARROW;}
 
+\n                 { printf("EOL\n");} // Recognize end of line
 [ \t\r]+          { /* Ignore whitespace */ }
 "//".*              { /* Ignore single-line comments */ }
 "/*"([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+"/" {}  // Multi-line comments
