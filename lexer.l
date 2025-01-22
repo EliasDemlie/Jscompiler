@@ -28,6 +28,8 @@
 "null"               { return NULL_TOKEN; }
 "typeof"             { return TYPEOF; }
 "instanceof"         { return INSTANCEOF; }
+"console"            {return   CONSOLE;}
+"log"                 {return LOG;}
 
 
 [0-9]+               { yylval = atoi(yytext); printf("Token: NUMBER\n"); return NUMBER; } // Integers

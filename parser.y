@@ -13,7 +13,8 @@ int yylex();
 %}
 
 %token VAR LET CONST FUNCTION RETURN IF ELSE WHILE FOR DO BREAK CONTINUE
-%token TRY CATCH FINALLY CLASS NEW THIS TRUE FALSE UNDEFINED NULL_TOKEN TYPEOF INSTANCEOF
+%token TRY CATCH FINALLY CLASS NEW THIS TRUE FALSE UNDEFINED NULL_TOKEN TYPEOF INSTANCEOF 
+%token CONSOLE LOG
 %token IDENTIFIER NUMBER FLOAT_LITERAL STRING_LITERAL CHAR_LITERAL
 %token PLUS MINUS MULT DIV MOD
 %token EQ STRICT_EQ NEQ STRICT_NEQ GT LT GTE LTE ASSIGN INCREMENT DECREMENT
@@ -34,6 +35,7 @@ int yylex();
 program:
     program statement
     | statement
+    | program EOL
     ;
 
 statement:
@@ -58,7 +60,11 @@ variable_declaration:
     | CONST IDENTIFIER ASSIGN expression terminator
     ;
 
-terminator:  EOL | SEMICOLON ;
+terminator:
+      EOL 
+      | SEMICOLON
+      |
+       ;
 
 modifier: VAR | LET ;
 
@@ -82,11 +88,16 @@ parameter_list:
 
 
 function_call_statement:
-    function_call terminator
+    function_call  terminator
+    | console_log_call  terminator
     ;
 
 function_call:
-    IDENTIFIER LPAREN argument_list RPAREN
+    IDENTIFIER LPAREN argument_list RPAREN 
+    ;
+
+console_log_call:
+    CONSOLE DOT LOG LPAREN argument_list RPAREN
     ;
 
 argument_list:
