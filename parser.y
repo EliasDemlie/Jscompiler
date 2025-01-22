@@ -16,7 +16,7 @@ int yylex();
 %token TRY CATCH FINALLY CLASS NEW THIS TRUE FALSE UNDEFINED NULL_TOKEN TYPEOF INSTANCEOF
 %token IDENTIFIER NUMBER FLOAT_LITERAL STRING_LITERAL CHAR_LITERAL
 %token PLUS MINUS MULT DIV MOD
-%token EQ STRICT_EQ NEQ STRICT_NEQ GT LT GTE LTE ASSIGN
+%token EQ STRICT_EQ NEQ STRICT_NEQ GT LT GTE LTE ASSIGN INCREMENT DECREMENT
 %token AND OR NOT
 %token EOL SEMICOLON COMMA DOT LBRACE RBRACE LPAREN RPAREN LBRACKET RBRACKET
 
@@ -104,6 +104,7 @@ statement_list:
 if_statement:
     IF LPAREN expression RPAREN statement
     | IF LPAREN expression RPAREN statement ELSE statement
+    | expression
     ;
 
 
@@ -144,29 +145,38 @@ expression_statement:
     ;
 
 expression:
-    function_call
-    | expression PLUS expression
-    | expression MINUS expression
-    | expression MULT expression
-    | expression DIV expression
-    | expression MOD expression
-    | expression GT expression
-    | expression LT expression
-    | expression GTE expression
-    | expression LTE expression
-    | expression EQ expression
-    | expression STRICT_EQ expression
-    | expression NEQ expression
-    | expression STRICT_NEQ expression
-    | expression AND expression
-    | expression OR expression
-    | NOT expression
-    | LPAREN expression RPAREN
-    | IDENTIFIER
-    | NUMBER
-    | FLOAT_LITERAL
-    | STRING_LITERAL
-    | CHAR_LITERAL
+    expression PLUS expression                          { /* addition operation */ }
+    | expression MINUS expression                         { /* subtraction operation */ }
+    | expression MULT expression                          { /* multiplication operation */ }
+    | expression DIV expression                           { /* division operation */ }
+    | expression MOD expression                           { /* modulo operation */ }
+    | expression GT expression                           { /* greater than comparison */ }
+    | expression LT expression                           { /* less than comparison */ }
+    | expression GTE expression                          { /* greater than or equal */ }
+    | expression LTE expression                          { /* less than or equal */ }
+    | expression EQ expression                           { /* equality comparison */ }
+    | expression STRICT_EQ expression                     { /* strict equality comparison */ }
+    | expression NEQ expression                          { /* not equal comparison */ }
+    | expression STRICT_NEQ expression                    { /* strict not equal comparison */ }
+    | expression AND expression                          { /* logical AND */ }
+    | expression OR expression                           { /* logical OR */ }
+    | NOT expression                                     { /* logical NOT */ }
+    | IDENTIFIER INCREMENT                               { /* postfix increment */ }
+    | IDENTIFIER DECREMENT                               { /* postfix decrement */ }
+    | INCREMENT IDENTIFIER                               { /* prefix increment */ }
+    | DECREMENT IDENTIFIER                               { /* prefix decrement */ }
+    | IDENTIFIER ASSIGN expression                       { /* assignment operation */ }
+    | expression PLUS ASSIGN expression                   { /* addition assignment */ }
+    | expression MINUS ASSIGN expression                  { /* subtraction assignment */ }
+    | expression MULT ASSIGN expression                   { /* multiplication assignment */ }
+    | expression DIV ASSIGN expression                    { /* division assignment */ }
+    | expression MOD ASSIGN expression                    { /* modulo assignment */ }
+    | LPAREN expression RPAREN                           { /* parentheses to group expressions */ }
+    | IDENTIFIER                                          { /* simple identifier */ }
+    | NUMBER                                              { /* number literal */ }
+    | FLOAT_LITERAL                                       { /* float literal */ }
+    | STRING_LITERAL                                      { /* string literal */ }
+    | CHAR_LITERAL                                        { /* char literal */ }
     ;
 
 %%

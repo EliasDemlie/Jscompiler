@@ -51,6 +51,10 @@
 "*"                 { return MULT; }
 "/"                 { return DIV; }
 "%"                 { return MOD; }
+
+"++"                { return INCREMENT; }
+"--"                { return DECREMENT; }
+
 "&&"                { return AND; }
 "||"                { return OR; }
 "!"                 { return NOT; }
