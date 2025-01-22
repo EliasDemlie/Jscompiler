@@ -12,7 +12,7 @@ int yylex();
 
 %}
 
-%token VAR LET CONST FUNCTION RETURN IF ELSE WHILE FOR BREAK CONTINUE
+%token VAR LET CONST FUNCTION RETURN IF ELSE WHILE FOR DO BREAK CONTINUE
 %token TRY CATCH FINALLY CLASS NEW THIS TRUE FALSE UNDEFINED NULL_TOKEN TYPEOF INSTANCEOF
 %token IDENTIFIER NUMBER FLOAT_LITERAL STRING_LITERAL CHAR_LITERAL
 %token PLUS MINUS MULT DIV MOD
@@ -76,7 +76,7 @@ function_declaration:
 parameter_list:
     parameter_list COMMA IDENTIFIER
     | IDENTIFIER
-    | /* empty */
+    | // empty 
     ;
 
 
@@ -90,8 +90,9 @@ function_call:
 
 argument_list:
     argument_list COMMA expression
-    | expression | function_call
-    | /* empty */
+    | expression 
+    | function_call
+    |              // empty 
     ;
 
 
@@ -101,7 +102,7 @@ block:
 
 statement_list:
     statement_list statement
-    | /* empty */
+    |     //empty
     ;
 
 
@@ -115,20 +116,24 @@ if_statement:
 while_statement:
     WHILE LPAREN expression RPAREN statement
     ;
-
 for_statement:
     FOR LPAREN for_initializer SEMICOLON expression SEMICOLON for_update RPAREN statement
-    ;
+    | FOR LPAREN SEMICOLON expression SEMICOLON for_update RPAREN statement
+    | FOR LPAREN for_initializer SEMICOLON SEMICOLON for_update RPAREN statement
+    | FOR LPAREN for_initializer SEMICOLON expression SEMICOLON RPAREN statement
+    | FOR LPAREN SEMICOLON SEMICOLON RPAREN statement;
 
 for_initializer:
     variable_declaration
     | assignment_statement
-    | /* empty */
+    | expression
+    | 
     ;
 
 for_update:
     assignment_statement
-    | /* empty */
+    | expression
+    | 
     ;
 
 return_statement:

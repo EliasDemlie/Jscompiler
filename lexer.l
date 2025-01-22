@@ -11,6 +11,7 @@
 "if"                 { printf("Token: IF\n"); return IF; }
 "else"               { printf("Token: ELSE\n"); return ELSE; }
 "while"              { printf("Token: WHILE\n"); return WHILE; }
+"do"                 {return DO;}
 "for"                { return FOR; }
 "break"              { return BREAK; }
 "continue"           { return CONTINUE; }
