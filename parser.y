@@ -3,7 +3,6 @@
 #include <stdlib.h>
 
 extern int yylineno;
-
 extern int yylval;
 extern FILE *yyin;
 
@@ -19,7 +18,7 @@ int yylex();
 %token PLUS MINUS MULT DIV MOD
 %token EQ STRICT_EQ NEQ STRICT_NEQ GT LT GTE LTE ASSIGN INCREMENT DECREMENT
 %token AND OR NOT
-%token EOL SEMICOLON COMMA DOT  ARROW LBRACE RBRACE LPAREN RPAREN LBRACKET RBRACKET
+%token SEMICOLON COMMA DOT ARROW LBRACE RBRACE LPAREN RPAREN LBRACKET RBRACKET
 
 %left OR
 %left AND
@@ -30,46 +29,39 @@ int yylex();
 %right NOT
 %nonassoc ELSE
 
-
 %%
+
 program:
     program statement
     | statement
-    | program EOL
     ;
 
 statement:
-    variable_declaration
-    | assignment_statement
+    variable_declaration SEMICOLON
+    | assignment_statement SEMICOLON
     | function_declaration
     | if_statement
     | while_statement
     | do_while_statement
     | for_statement
-    | return_statement
-    | break_statement
-    | continue_statement
-    | expression_statement
-    | function_call_statement
+    | return_statement SEMICOLON
+    | break_statement SEMICOLON
+    | continue_statement SEMICOLON
+    | expression_statement SEMICOLON
+    | function_call_statement SEMICOLON
     | block
     ;
 
 variable_declaration:
-    modifier IDENTIFIER terminator
-    | modifier IDENTIFIER ASSIGN expression terminator
-    | CONST IDENTIFIER ASSIGN expression terminator
+    modifier IDENTIFIER
+    | modifier IDENTIFIER ASSIGN expression
+    | CONST IDENTIFIER ASSIGN expression
     ;
-
-terminator:
-      EOL 
-      | SEMICOLON
-      |
-       ;
 
 modifier: VAR | LET ;
 
 assignment_statement:
-    IDENTIFIER ASSIGN expression terminator
+    IDENTIFIER ASSIGN expression
     ;
 
 function_declaration:
@@ -83,17 +75,16 @@ function_declaration:
 parameter_list:
     parameter_list COMMA IDENTIFIER
     | IDENTIFIER
-    | // empty 
+    | // empty
     ;
 
-
 function_call_statement:
-    function_call  terminator
-    | console_log_call  terminator
+    function_call
+    | console_log_call
     ;
 
 function_call:
-    IDENTIFIER LPAREN argument_list RPAREN 
+    IDENTIFIER LPAREN argument_list RPAREN
     ;
 
 console_log_call:
@@ -102,11 +93,10 @@ console_log_call:
 
 argument_list:
     argument_list COMMA expression
-    | expression 
+    | expression
     | function_call
-    |              // empty 
+    | // empty
     ;
-
 
 block:
     LBRACE statement_list RBRACE
@@ -114,16 +104,13 @@ block:
 
 statement_list:
     statement_list statement
-    |     //empty
+    | // empty
     ;
-
 
 if_statement:
     IF LPAREN expression RPAREN statement
     | IF LPAREN expression RPAREN statement ELSE statement
-    | expression
     ;
-
 
 while_statement:
     WHILE LPAREN expression RPAREN statement
@@ -133,79 +120,81 @@ do_while_statement:
     DO statement WHILE LPAREN expression RPAREN SEMICOLON
     ;
 
-
 for_statement:
     FOR LPAREN for_initializer SEMICOLON expression SEMICOLON for_update RPAREN statement
     | FOR LPAREN SEMICOLON expression SEMICOLON for_update RPAREN statement
     | FOR LPAREN for_initializer SEMICOLON SEMICOLON for_update RPAREN statement
     | FOR LPAREN for_initializer SEMICOLON expression SEMICOLON RPAREN statement
-    | FOR LPAREN SEMICOLON SEMICOLON RPAREN statement;
+    | FOR LPAREN SEMICOLON SEMICOLON RPAREN statement
+    ;
 
 for_initializer:
     variable_declaration
     | assignment_statement
     | expression
-    | 
+    | // empty
     ;
 
 for_update:
     assignment_statement
     | expression
-    | 
+    | // empty
     ;
 
 return_statement:
-    RETURN expression terminator
-    | RETURN terminator
+    RETURN expression
+    | RETURN
     ;
 
 break_statement:
-    BREAK terminator
+    BREAK
     ;
 
 continue_statement:
-    CONTINUE terminator
+    CONTINUE
     ;
 
 expression_statement:
-    expression terminator
+    expression
     ;
+
 expression:
-    expression PLUS expression                          
-    | expression MINUS expression                         
-    | expression MULT expression                          
-    | expression DIV expression                           
-    | expression MOD expression                           
-    | expression GT expression                           
-    | expression LT expression                           
-    | expression GTE expression                          
-    | expression LTE expression                          
-    | expression EQ expression                           
-    | expression STRICT_EQ expression                     
-    | expression NEQ expression                          
-    | expression STRICT_NEQ expression                    
-    | expression AND expression                          
-    | expression OR expression                           
-    | NOT expression                                     
-    | IDENTIFIER INCREMENT                               
-    | IDENTIFIER DECREMENT                               
-    | INCREMENT IDENTIFIER                               
-    | DECREMENT IDENTIFIER                               
-    | IDENTIFIER ASSIGN expression                       
-    | expression PLUS ASSIGN expression                   
-    | expression MINUS ASSIGN expression                  
-    | expression MULT ASSIGN expression                   
-    | expression DIV ASSIGN expression                    
-    | expression MOD ASSIGN expression                    
-    | LPAREN expression RPAREN                           
-    | IDENTIFIER                                          
-    | NUMBER                                              
-    | FLOAT_LITERAL                                       
-    | STRING_LITERAL                                      
-    | CHAR_LITERAL                                        
+    expression PLUS expression
+    | expression MINUS expression
+    | expression MULT expression
+    | expression DIV expression
+    | expression MOD expression
+    | expression GT expression
+    | expression LT expression
+    | expression GTE expression
+    | expression LTE expression
+    | expression EQ expression
+    | expression STRICT_EQ expression
+    | expression NEQ expression
+    | expression STRICT_NEQ expression
+    | expression AND expression
+    | expression OR expression
+    | NOT expression
+    | IDENTIFIER INCREMENT
+    | IDENTIFIER DECREMENT
+    | INCREMENT IDENTIFIER
+    | DECREMENT IDENTIFIER
+    | IDENTIFIER ASSIGN expression
+    | expression PLUS ASSIGN expression
+    | expression MINUS ASSIGN expression
+    | expression MULT ASSIGN expression
+    | expression DIV ASSIGN expression
+    | expression MOD ASSIGN expression
+    | LPAREN expression RPAREN
+    | IDENTIFIER
+    | NUMBER
+    | FLOAT_LITERAL
+    | STRING_LITERAL
+    | CHAR_LITERAL
     ;
 
 %%
+
 void yyerror(const char *s) {
     fprintf(stderr, "Syntax Error: %s at line %d\n", s, yylineno);
 }

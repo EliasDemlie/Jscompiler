@@ -71,7 +71,6 @@
 "."                 { return DOT; }
 "=>"                {printf("Token: ARROW\n"); return ARROW;}
 
-\n                 { printf("EOL\n");} // Recognize end of line
 [ \t\r]+          { /* Ignore whitespace */ }
 "//".*              { /* Ignore single-line comments */ }
 "/*"([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+"/" {}  // Multi-line comments
