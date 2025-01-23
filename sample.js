@@ -1,6 +1,5 @@
 // Variable declarations
-let a = 5;
-const b = 10;
+let a = 5; const b = 10;
 var c = 15;
 
 // Conditional statements
@@ -30,7 +29,7 @@ if (a > 10) {
 i += 1;
 i++;
 
-const greet = () => {
+const greet = () => {     //js arrow function
 
 }
 function add(){

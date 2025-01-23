@@ -71,14 +71,12 @@
 "."                 { return DOT; }
 "=>"                {printf("Token: ARROW\n"); return ARROW;}
 
-[ \t\r]+          { /* Ignore whitespace */ }
+[ \t\r\n]+          { /* Ignore whitespace */ }
 "//".*              { /* Ignore single-line comments */ }
 "/*"([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+"/" {}  // Multi-line comments
 
 .                   { fprintf(stderr, "Error: Invalid character '%s' at line %d\n", yytext, yylineno); exit(1); }
 %%
-
-
 int yywrap() {
     return 1;
 }

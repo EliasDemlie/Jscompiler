@@ -9,7 +9,6 @@ YACC_FILE = parser.y
 LEX_C = lex.yy.c
 YACC_C = parser.tab.c
 YACC_H = parser.tab.h
-SYMBOL_TABLE_C = symbol_table.c  # Added symbol_table.c
 EXECUTABLE = js_parser
 
 # Default target
